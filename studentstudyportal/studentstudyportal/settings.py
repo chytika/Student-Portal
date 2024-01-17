@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dashboard',
     'crispy_forms',
+    'crispy_bootstrap4',
     
 ]
 
@@ -132,6 +133,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR,'static']
 
 
-# CRISPY_TEMPLATE_PACK = "bootstrap4"
-# CRISPY_TEMPLATE_PACK = 'bootstrap4'
-CRISPY_TEMPLATE_PACK = 'uni_form'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
