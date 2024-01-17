@@ -37,6 +37,7 @@ def notes_view(request):
 # Delete Notes
 def delete_note(request, pk=None):
    notes = Notes.objects.get(id=pk).delete()
+   messages.success(request, f'Note Deleted successfully!')
    return redirect('notes')
 
 

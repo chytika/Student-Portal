@@ -11,7 +11,8 @@
                 <div class="card">
                     <div class="card-header">{{note.title}}</div>
                     <div class="card-body">{{note.description|slice:"0:100"}}</div>
-                    <div class="card-footer mt-auto "><a href="{% url 'edit_note' note.id %}">
+                    <div class="card-footer mt-auto ">
+                        <a href="{% url 'edit_note' note.id %}">
                         <i class="fa fa-edit fa-2x" style="margin-right: 5px;"></i></a>
                         <a href="{% url 'delete_note' note.id %}">
                             <i class="fa fa-trash fa-2x"></i></a>
@@ -26,7 +27,7 @@
 </div>
 <br></br>
 <div class="container">
-    <form method="POST">
+    <form method="POST"style="max-width: 600px; margin: 50px auto; padding: 20px; background-color: #ffffff; border: 1px solid #dee2e6; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Create Notes</legend>
