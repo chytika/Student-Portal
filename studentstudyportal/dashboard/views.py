@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from . forms import *
 from django.contrib import messages
+from django.views import generic
 
 
 
@@ -59,4 +60,8 @@ def edit_note(request, pk=None):
     }
 
     return render(request, 'dashboard/edit_note.html', context)
+
+
+class NotesDetailView(generic.DetailView):
+    model = Notes
 
