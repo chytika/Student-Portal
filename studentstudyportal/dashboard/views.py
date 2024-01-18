@@ -198,3 +198,85 @@ def youtube(request):
     }
     return render(request, 'dashboard/youtube.html',context)
 
+# Todo
+def todo(request):
+    if request.method == "POST":
+        form = TodoForm(request.POST)
+        if form.is_valid():
+            try:
+                finished = request.POST['is_finished']
+                if finished == 0:
+                    finished = True
+                else:
+                    finished = False
+            except:
+                finished = False
+
+            todos = Todo(
+                user = request.user,
+                title = request.POST['title'],
+                is_finished = finished
+            )
+            todos.save()
+            messages.success(request,f'Todo added from {request.user.username} successfully!')
+    else:
+      form = TodoForm()
+
+    todo = Todo.objects.filter(user=request.user)
+    if len(todo) == 0:
+        todo_done = True
+    else:
+        todo_done = False
+    
+    context = {
+        'todos':todo,
+        'todos_done': todo_done,
+        'form': form,
+
+    }
+    return render(request, 'dashboard/todo.html', context)
+
+ # Delete Todo
+def delete_todo(request, pk=None):
+    todo = Todo.objects.get(id=pk).delete()
+    messages.success(request, f'Todo Deleted successfully!')
+    return redirect('todo')    
+            
+ 
+#  Edit todo
+def edit_todo(request, pk=None):
+    todo = Todo.objects.get(id=pk)  
+    if request.method == 'POST':
+        form = TodoForm(request.POST, instance=todo)
+        if form.is_valid():
+            try:
+                finished = request.POST['is_finished']
+                if finished == '0':
+                    finished = True
+                else:
+                    finished = False
+            except:
+                finished = False               
+            todo.title = request.POST['title'],
+            todo.is_finished = finished
+            todo.save()
+            messages.success(request, f'Todo edited successfully!')
+            return redirect('todo')
+    else:
+        form = TodoForm(instance=todo)
+    context = {
+        'form': form,
+        'todo': todo,
+    }
+
+    return render(request, 'dashboard/edit_todo.html', context)
+
+  #  Update homework
+def update_todo(request, pk=None):
+    todo = Todo.objects.get(id=pk) 
+    if  todo.is_finished == True:
+        todo.is_finished = False
+    else:
+        todo.is_finished = True
+    todo.save()
+    return redirect('todo')
