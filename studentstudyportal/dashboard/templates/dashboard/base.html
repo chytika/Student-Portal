@@ -75,7 +75,16 @@
       {% for msg in messages%}
       <div class="alert alert-{{msg.tags}}">{{msg}}</div>
       {% endfor %}
-    {% endif %}
+    
+
+    <script>
+      setTimeout(function() {
+        document.querySelectorAll('.alert').forEach(function(alert) {
+          alert.style.display = 'none';
+        });
+      }, 3000);  // Hide all messages after 3 seconds (3000 milliseconds)
+    </script>
+  {% endif %}
 
 
 
