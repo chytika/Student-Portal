@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.views import generic
 from django.forms.widgets import FileInput
 from youtubesearchpython import VideosSearch
+import requests
 
 
 # Create your views here.
@@ -242,7 +243,6 @@ def delete_todo(request, pk=None):
     messages.success(request, f'Todo Deleted successfully!')
     return redirect('todo')    
             
- 
 #  Edit todo
 def edit_todo(request, pk=None):
     todo = Todo.objects.get(id=pk)  
@@ -280,3 +280,39 @@ def update_todo(request, pk=None):
         todo.is_finished = True
     todo.save()
     return redirect('todo')
+
+
+# Books
+def books(request):
+    if request.method == "POST":
+        form = DashboardForm(request.POST)
+        text = request.POST['text']
+        url = "https://www.googleapis.com/books/v1/volumes?q="+text
+        r = requests.get(url)
+        answer = r.json()
+        result_list = []
+        for i in range(10):
+            result_dict = {
+                'title': answer['items'][i]['volumeInfo']['title'],
+                'subtitle': answer['items'][i]['volumeInfo'].get('subtitle'),
+                'description': answer['items'][i]['volumeInfo'].get('description'),
+                'count': answer['items'][i]['volumeInfo'].get('pageCount'),
+                'categories': answer['items'][i]['volumeInfo'].get('categories'),
+                'rating': answer['items'][i]['volumeInfo'].get('pageRating'),
+                'thumbnail': answer['items'][i]['volumeInfo'].get('imageLinks'),
+                'preview': answer['items'][i]['volumeInfo'].get('previewLinks'),
+                 
+            }
+            result_list.append(result_dict)
+            context = {
+             'form': form,
+             'results': result_list,
+            }
+        return render(request, 'dashboard/books.html',context)
+    
+    form = DashboardForm()
+    context = {
+        'form': form,
+        
+    }
+    return render(request,'dashboard/books.html', context)

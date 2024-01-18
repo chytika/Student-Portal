@@ -32,3 +32,4 @@ class TodoForm(forms.ModelForm):
         
         model = Todo
         fields = [ 'title','is_finished']
+
