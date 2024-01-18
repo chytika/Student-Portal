@@ -13,6 +13,7 @@ urlpatterns = [
     path('homework/', views.homework_view, name="homework"),
     path('delete_homework/<int:pk>', views.delete_homework, name="delete-homework"),
     path('edit_homework/<int:pk>', views.edit_homework, name="edit-homework"),
+    path('update_homework/<int:pk>', views.update_homework, name="update-homework"),
       
 
 

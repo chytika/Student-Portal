@@ -113,8 +113,6 @@ def delete_homework(request, pk=None):
     messages.success(request, f'Homework Deleted successfully!')
     return redirect('homework')
 
-
-
 #  Edit homework
 def edit_homework(request, pk=None):
     homework = Homework.objects.get(id=pk)  
@@ -147,5 +145,14 @@ def edit_homework(request, pk=None):
 
     return render(request, 'dashboard/edit_homework.html', context)
 
+#  Update homework
 
+def update_homework(request, pk=None):
+    homework = Homework.objects.get(id=pk) 
+    if  homework.is_finished == True:
+        homework.is_finished = False
+    else:
+        homework.is_finished = True
+    homework.save()
+    return redirect('homework')
 
