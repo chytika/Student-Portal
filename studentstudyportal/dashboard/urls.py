@@ -15,7 +15,8 @@ urlpatterns = [
     path('edit_homework/<int:pk>', views.edit_homework, name="edit-homework"),
     path('update_homework/<int:pk>', views.update_homework, name="update-homework"),
       
-
+    # Youtube
+    path('youtube/', views.youtube, name="youtube"),
 
 
 ]
