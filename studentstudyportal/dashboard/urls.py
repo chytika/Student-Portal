@@ -27,7 +27,8 @@ urlpatterns = [
     # Books
     path('books/', views.books, name="books"),
       
-
+   # Dictionary
+    path('dictionary/', views.dictionary, name="dictionary"), 
 
 ]
 

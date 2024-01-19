@@ -299,8 +299,8 @@ def books(request):
                 'count': answer['items'][i]['volumeInfo'].get('pageCount'),
                 'categories': answer['items'][i]['volumeInfo'].get('categories'),
                 'rating': answer['items'][i]['volumeInfo'].get('pageRating'),
-                'thumbnail': answer['items'][i]['volumeInfo'].get('imageLinks'),
-                'preview': answer['items'][i]['volumeInfo'].get('previewLinks'),
+                'thumbnail': answer['items'][i]['volumeInfo'].get('imageLinks').get('thumbnail'),
+                'preview': answer['items'][i]['volumeInfo'].get('previewLink')
                  
             }
             result_list.append(result_dict)
@@ -316,3 +316,44 @@ def books(request):
         
     }
     return render(request,'dashboard/books.html', context)
+
+
+# # Dictionary
+def dictionary(request):
+     if request.method == "POST":
+        form = DashboardForm(request.POST)
+        text = request.POST['text'] 
+        url = "https://api.dictionaryapi.dev/api/v2/entries/en_US/"+text
+        r = requests.get(url)
+        answer = r.json()
+        # print(answer)  # Print the API response for debugging
+
+        try:
+           phonetics = answer[0]['phonetics'][0]['text']
+           audio = answer[0]['phonetics'][0]['audio']
+           definition = answer[0]['meanings'][0]['definitions'][0]['definition']
+           example = answer[0]['meanings'][0]['definitions'][0]['example']
+           synonyms = answer[0]['meanings'][0]['definitions'][0]['synonyms']
+
+           context = {
+                 'form': form,
+                 'input':text,
+                 'phonetics': phonetics,
+                 'audio': audio,
+                 'definition': definition,
+                 'example': example,
+                 'synonyms': synonyms,  
+             }
+        except:
+            context = {
+                'form': form,
+                 'input':'',
+            }
+        return render(request,'dashboard/dictionary.html', context) 
+     
+     else:
+        form = DashboardForm()
+        context = {'form': form }
+     return render(request,'dashboard/dictionary.html', context)
+    
+
