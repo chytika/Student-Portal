@@ -42,7 +42,7 @@ class ConversionForm(forms.Form):
 class ConversionLengthForm(forms.Form):
     CHOICES = [('yard', 'Yard'),('foot','Foot')]
     input = forms.ChoiceField(required=False,label=False, widget=forms.TextInput(
-        attrs= {'type':'number','placehodler':'Enter the Number'}
+        attrs= {'type':'number','placeholder':'Enter the Number'}
     ))
         
     measure1 = forms.CharField(
@@ -59,7 +59,7 @@ class ConversionLengthForm(forms.Form):
 class ConversionMassForm(forms.Form):
     CHOICES = [('pound', 'Pound'),('kilogram','Kilogram')]
     input = forms.ChoiceField(required=False,label=False, widget=forms.TextInput(
-        attrs= {'type':'number','placehodler':'Enter the Number'}
+        attrs= {'type':'number','placeholder':'Enter the Number'}
     ))
         
     measure1 = forms.CharField(
