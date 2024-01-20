@@ -133,5 +133,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR,'static']
 
 
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
+
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

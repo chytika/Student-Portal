@@ -439,3 +439,39 @@ def conversion(request):
             'input':False
         }
     return render(request, 'dashboard/conversion.html', context)
+
+
+def user_register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            messages.success(request,f'Account Created for {username}!!')
+            return redirect("login")
+    else:
+        form = UserRegistrationForm()
+    context = {
+            'form': form 
+        }
+    return render(request, 'dashboard/register.html',context)
+
+
+def profile(request):
+     homework = Homework.objects.filter(user=request.user)
+     todo = Todo.objects.filter(user=request.user)
+     if len(homework) == 0:
+        homework_done = True
+     else:
+        homework_done = False
+     if len(todo) == 0:
+        todo_done = True
+     else:
+        todo_done = False
+     context = {
+        'homework': homework,
+        'homeworks_done': homework_done,
+         'todos':todo,
+        'todos_done': todo_done,
+    }
+     return render(request,"dashboard/profile.html",context)
