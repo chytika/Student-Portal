@@ -30,6 +30,12 @@ urlpatterns = [
    # Dictionary
     path('dictionary/', views.dictionary, name="dictionary"), 
 
+    # wiki
+    path('wiki/', views.wiki, name="wiki"), 
+
+    # conversion
+    path('conversion/', views.conversion, name="conversion"), 
+
 ]
 
 
