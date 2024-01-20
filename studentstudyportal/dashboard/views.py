@@ -8,6 +8,7 @@ from django.forms.widgets import FileInput
 from youtubesearchpython import VideosSearch
 import requests
 import wikipedia
+from django.contrib.auth.decorators import login_required 
 
 
 
@@ -21,6 +22,7 @@ def home_view(request):
 
 
 # Notes view
+@login_required
 def notes_view(request):
     if request.method == "POST":
         form = NotesForm(request.POST)
@@ -44,6 +46,7 @@ def notes_view(request):
 
 
 # Delete Notes
+@login_required
 def delete_note(request, pk=None):
    notes = Notes.objects.get(id=pk).delete()
    messages.success(request, f'Note Deleted successfully!')
@@ -51,6 +54,7 @@ def delete_note(request, pk=None):
 
 
 #  Edit Notes
+@login_required
 def edit_note(request, pk=None):
     note = Notes.objects.get(id=pk)  
     if request.method == 'POST':
@@ -70,11 +74,13 @@ def edit_note(request, pk=None):
     return render(request, 'dashboard/edit_note.html', context)
 
 # NotesDetail page
+
 class NotesDetailView(generic.DetailView):
     model = Notes
 
 
 # Homework page
+@login_required  
 def homework_view(request):
      if request.method == "POST":
         form = HomeworkForm(request.POST)
@@ -114,12 +120,14 @@ def homework_view(request):
      return render(request, 'dashboard/homework.html', context)
 
 # Delete homework
+@login_required
 def delete_homework(request, pk=None):
     homework = Homework.objects.get(id=pk).delete()
     messages.success(request, f'Homework Deleted successfully!')
     return redirect('homework')
 
 #  Edit homework
+@login_required
 def edit_homework(request, pk=None):
     homework = Homework.objects.get(id=pk)  
     if request.method == 'POST':
@@ -152,6 +160,7 @@ def edit_homework(request, pk=None):
     return render(request, 'dashboard/edit_homework.html', context)
 
 #  Update homework
+@login_required
 def update_homework(request, pk=None):
     homework = Homework.objects.get(id=pk) 
     if  homework.is_finished == True:
@@ -204,6 +213,7 @@ def youtube(request):
     return render(request, 'dashboard/youtube.html',context)
 
 # Todo
+@login_required
 def todo(request):
     if request.method == "POST":
         form = TodoForm(request.POST)
@@ -243,12 +253,14 @@ def todo(request):
     return render(request, 'dashboard/todo.html', context)
 
  # Delete Todo
+@login_required
 def delete_todo(request, pk=None):
     todo = Todo.objects.get(id=pk).delete()
     messages.success(request, f'Todo Deleted successfully!')
     return redirect('todo')    
             
 #  Edit todo
+@login_required
 def edit_todo(request, pk=None):
     todo = Todo.objects.get(id=pk)  
     if request.method == 'POST':
@@ -277,6 +289,7 @@ def edit_todo(request, pk=None):
     return render(request, 'dashboard/edit_todo.html', context)
 
   #  Update homework
+@login_required
 def update_todo(request, pk=None):
     todo = Todo.objects.get(id=pk) 
     if  todo.is_finished == True:
@@ -440,7 +453,7 @@ def conversion(request):
         }
     return render(request, 'dashboard/conversion.html', context)
 
-
+# user_register
 def user_register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -456,7 +469,8 @@ def user_register(request):
         }
     return render(request, 'dashboard/register.html',context)
 
-
+# profile
+@login_required
 def profile(request):
      homework = Homework.objects.filter(user=request.user)
      todo = Todo.objects.filter(user=request.user)
